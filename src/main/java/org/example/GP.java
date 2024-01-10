@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.List;
 import java.util.Random;
 
 public class GP {
@@ -18,6 +19,22 @@ public class GP {
 
     public static Individual generateRandomIndividual(int numberOfNodes){
         return new Individual(MAX_DEPTH,numberOfNodes);
+    }
+
+    public static Individual pickBest(List<Individual> participants){
+        int bestScore = 0;
+        Individual bestIndividual = null;
+        for(Individual individual: participants){
+            if(bestIndividual==null){
+                bestIndividual = individual;
+                bestScore = individual.program.calculateFitness();
+            }
+            else if(individual.program.calculateFitness()<bestScore){
+                bestIndividual = individual;
+                bestScore = individual.program.calculateFitness();
+            }
+        }
+        return bestIndividual;
     }
     static int CROSSOVER_CHANCE=50;
     static int MUTATE_CHANCE=25;
